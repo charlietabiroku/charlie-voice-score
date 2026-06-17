@@ -11,8 +11,8 @@ import {
   COOLDOWN_MS,
   awardPoint,
   createInitialSnap,
-  getRoleLabel,
   getScoreCall,
+  getServerFirstValues,
   otherPlayer
 } from "./scoring";
 import type {
@@ -125,13 +125,13 @@ export default function App() {
     audioEngine.setGainMultiplier(volumeBoost);
   }, [volumeBoost]);
 
-  const leftIsServer = snap.server === "A";
-  const rightIsServer = snap.server === "B";
-  const leftGames = snap.ga;
-  const rightGames = snap.gb;
+  const [leftGames, rightGames] = getServerFirstValues(snap.server, snap.ga, snap.gb);
   const callLabel = getScoreCall(snap, deuceRules);
-  const leftPoint = pointDisplay(snap.isTiebreak ? snap.tbPa : snap.pa, snap.isTiebreak ? snap.tbPb : snap.pb, deuceRules, snap.isTiebreak);
-  const rightPoint = pointDisplay(snap.isTiebreak ? snap.tbPb : snap.pb, snap.isTiebreak ? snap.tbPa : snap.pa, deuceRules, snap.isTiebreak);
+  const [serverPointValue, receiverPointValue] = snap.isTiebreak
+    ? getServerFirstValues(snap.server, snap.tbPa, snap.tbPb)
+    : getServerFirstValues(snap.server, snap.pa, snap.pb);
+  const leftPoint = pointDisplay(serverPointValue, receiverPointValue, deuceRules, snap.isTiebreak);
+  const rightPoint = pointDisplay(receiverPointValue, serverPointValue, deuceRules, snap.isTiebreak);
   const audioButtonLabel = !audioOn ? "▶ Tap" : audioStatus === "loading" ? "⟳ Loading" : "▶ Tap";
   const volumeButtonLabel = `${volumeBoost === 4 ? "🔊" : "🔈"} VOL`;
 
@@ -295,8 +295,8 @@ export default function App() {
         <ServeHero
           leftGames={leftGames}
           rightGames={rightGames}
-          leftIsServer={leftIsServer}
-          rightIsServer={rightIsServer}
+          leftIsServer
+          rightIsServer={false}
           isTiebreak={snap.isTiebreak}
           onTap={() => {
             unlockAudio();
