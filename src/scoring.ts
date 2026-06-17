@@ -45,6 +45,10 @@ export function getRoleLabel(player: Player, server: Player): "Server" | "Receiv
   return player === server ? "Server" : "Receiver";
 }
 
+export function getServerFirstValues<T>(server: Player, aValue: T, bValue: T): [T, T] {
+  return server === "A" ? [aValue, bValue] : [bValue, aValue];
+}
+
 function normalizePoints(value: number): number {
   return Math.min(value, 3);
 }
@@ -85,8 +89,7 @@ function buildStandardCall(pa: number, pb: number, deuceRules: boolean, server: 
       : { text: "ADVANTAGE RECEIVER", audioKey: "advantage-receiver" };
   }
 
-  const serverPoints = server === "A" ? pa : pb;
-  const receiverPoints = server === "A" ? pb : pa;
+  const [serverPoints, receiverPoints] = getServerFirstValues(server, pa, pb);
   const serverIndex = normalizePoints(serverPoints);
   const receiverIndex = normalizePoints(receiverPoints);
   const isAll = serverIndex === receiverIndex;
@@ -95,20 +98,18 @@ function buildStandardCall(pa: number, pb: number, deuceRules: boolean, server: 
     text: isAll
       ? `${POINT_WORDS[serverIndex]} ALL`
       : `${POINT_WORDS[serverIndex]} ${POINT_WORDS[receiverIndex]}`,
-    audioKey:
-      server === "A"
-        ? POINT_AUDIO_MATRIX[serverIndex][receiverIndex]
-        : POINT_AUDIO_MATRIX[receiverIndex][serverIndex]
+    audioKey: POINT_AUDIO_MATRIX[serverIndex][receiverIndex]
   };
 }
 
 export function getScoreCall(snap: MatchSnap, deuceRules: boolean): PointLabel {
   if (snap.isTiebreak) {
-    if (snap.tbPa === snap.tbPb) {
-      return { text: `${snap.tbPa} ALL` };
+    const [serverPoints, receiverPoints] = getServerFirstValues(snap.server, snap.tbPa, snap.tbPb);
+    if (serverPoints === receiverPoints) {
+      return { text: `${serverPoints} ALL` };
     }
 
-    return { text: `${snap.tbPa} ${snap.tbPb}` };
+    return { text: `${serverPoints} ${receiverPoints}` };
   }
 
   return buildStandardCall(snap.pa, snap.pb, deuceRules, snap.server);
