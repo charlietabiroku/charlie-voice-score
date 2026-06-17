@@ -24,6 +24,53 @@ import type {
   Player
 } from "./types";
 
+function BrandBadge() {
+  return (
+    <span className="relative flex h-[34px] w-[34px] items-center justify-center rounded-[11px] bg-[linear-gradient(180deg,#21321A_0%,#182415_100%)] shadow-[0_0_22px_rgba(200,245,58,0.22)]">
+      <span className="h-5 w-5 rounded-full bg-[radial-gradient(circle_at_30%_25%,#ECFF9A_0%,#C8F53A_52%,#8EBE12_100%)]" />
+      <span className="absolute inset-y-[7px] left-[8px] w-[2px] rounded-full bg-white/90" />
+      <span className="absolute inset-y-[7px] right-[8px] w-[2px] rounded-full bg-white/90" />
+    </span>
+  );
+}
+
+function FaultIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M12 4.2 20 18a1 1 0 0 1-.86 1.5H4.86A1 1 0 0 1 4 18l8-13.8Z" />
+      <path d="M12 9v5.2" strokeLinecap="round" />
+      <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function LetIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <path d="M20 12a8 8 0 1 1-2.34-5.66" />
+      <path d="M20 4v6h-6" />
+    </svg>
+  );
+}
+
+function UndoIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mr-2 h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <path d="M9 8H5v4" />
+      <path d="M5 12a7 7 0 1 0 2.05-4.95L5 8" />
+    </svg>
+  );
+}
+
+function ResetIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mr-2 h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <path d="m6 6 12 12" />
+      <path d="M18 6 6 18" />
+    </svg>
+  );
+}
+
 function haptic(pattern: number | number[], enabled: boolean) {
   if (!enabled || typeof navigator === "undefined" || !("vibrate" in navigator)) {
     return;
@@ -79,13 +126,17 @@ export default function App() {
 
   const leftIsServer = snap.server === "A";
   const rightIsServer = snap.server === "B";
-  const leftLabel = getRoleLabel("A", snap.server);
-  const rightLabel = getRoleLabel("B", snap.server);
   const leftGames = snap.ga;
   const rightGames = snap.gb;
   const callLabel = getScoreCall(snap, deuceRules);
   const leftPoint = pointDisplay(snap.isTiebreak ? snap.tbPa : snap.pa, snap.isTiebreak ? snap.tbPb : snap.pb, deuceRules, snap.isTiebreak);
   const rightPoint = pointDisplay(snap.isTiebreak ? snap.tbPb : snap.pb, snap.isTiebreak ? snap.tbPa : snap.pa, deuceRules, snap.isTiebreak);
+  const audioButtonLabel = audioOn
+    ? audioStatus === "loading"
+      ? "⟳ Loading"
+      : "▶ Tap"
+    : "♪ OFF";
+  const volumeButtonLabel = `${volumeBoost === 4 ? "🔊" : "🔈"} VOL`;
 
   function unlockAudio() {
     void audioEngine.unlockAndPreload();
@@ -201,12 +252,14 @@ export default function App() {
   return (
     <main className="flex min-h-dvh items-center justify-center bg-[#0C1A0C] px-3 py-3 text-white">
       <div className="flex h-dvh w-full max-w-[448px] flex-col overflow-hidden rounded-[34px] px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-[calc(env(safe-area-inset-top)+8px)]">
-        <header className="mb-2.5 flex items-start justify-between gap-2">
+        <header className="mb-3 flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-3">
-            <img src="/logo.svg" alt="Charlie Voice Score" className="h-[30px] w-[30px] shrink-0" />
+            <BrandBadge />
             <div className="min-w-0">
-              <div className="truncate text-[16px] font-bold tracking-[-0.03em]">Charlie Voice Score</div>
-              <div className="truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B7CC74]">
+              <div className="text-[17px] font-bold leading-none tracking-[-0.04em] text-white">
+                Charlie Voice Score
+              </div>
+              <div className="mt-1 text-[11px] font-bold leading-none tracking-[-0.02em] text-[#B7CC74]">
                 Real-Time Tennis Umpire
               </div>
             </div>
@@ -216,21 +269,21 @@ export default function App() {
             <button
               type="button"
               onClick={unlockAudio}
-              className="rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D8DED4]"
+              className="flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-semibold tracking-[-0.02em] text-[#C5CCC0]"
             >
-              {audioStatus === "locked" ? "▶ Tap" : audioOn ? "♪ ON" : "♪ OFF"}
+              <span>{audioButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setVolumeBoost((prev) => (prev === 2 ? 4 : 2))}
-              className="rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D8DED4]"
+              className="flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-semibold tracking-[-0.02em] text-[#C5CCC0]"
             >
-              {`VOL ${volumeBoost}x`}
+              <span>{volumeButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setSettingsOpen(true)}
-              className="grid h-9 w-9 place-items-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] text-sm text-[#D8DED4]"
+              className="grid h-11 w-11 place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[18px] text-[#C5CCC0]"
             >
               ⚙
             </button>
@@ -252,8 +305,6 @@ export default function App() {
 
         <div className="mt-2.5">
           <ScoreCard
-            leftLabel={leftLabel}
-            rightLabel={rightLabel}
             leftScore={leftPoint}
             rightScore={rightPoint}
             callText={callLabel.text}
@@ -269,11 +320,11 @@ export default function App() {
           <UmpireBtn
             title={faultCount === 0 ? "Fault" : "2nd Fault!"}
             subtitle={faultCount === 0 ? "1st serve" : "→ Double Fault"}
-            icon="△"
+            icon={<FaultIcon />}
             tone="fault"
             onClick={handleFault}
           />
-          <UmpireBtn title="Let" subtitle="replay point" icon="↺" tone="neutral" onClick={handleLet} />
+          <UmpireBtn title="Let" subtitle="replay point" icon={<LetIcon />} tone="neutral" onClick={handleLet} />
         </div>
 
         <div className="mt-2.5 grid grid-cols-2 gap-3">
@@ -286,16 +337,18 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleUndo}
-            className="flex min-h-[54px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[15px] font-semibold text-[#8D9788]"
+            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[15px] font-semibold text-[#8D9788]"
           >
+            <UndoIcon />
             Undo
           </motion.button>
           <motion.button
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleReset}
-            className="flex min-h-[54px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[15px] font-semibold text-[#FFB7A3]"
+            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[15px] font-semibold text-[#FFB7A3]"
           >
+            <ResetIcon />
             Reset
           </motion.button>
         </div>
