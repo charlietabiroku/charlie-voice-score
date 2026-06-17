@@ -1,4 +1,4 @@
-const CACHE_NAME = "charlie-voice-score-v1";
+const CACHE_NAME = "charlie-voice-score-v2";
 const ASSETS = ["/", "/manifest.json", "/logo.svg"];
 
 self.addEventListener("install", (event) => {
