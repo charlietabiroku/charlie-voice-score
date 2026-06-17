@@ -3,10 +3,12 @@ import { AnimatePresence, motion } from "framer-motion";
 type SettingsSheetProps = {
   open: boolean;
   deuceRules: boolean;
+  tiebreakEnabled: boolean;
   audioOn: boolean;
   vibrationOn: boolean;
   onClose: () => void;
   onToggleDeuce: () => void;
+  onToggleTiebreak: () => void;
   onToggleAudio: () => void;
   onToggleVibration: () => void;
 };
@@ -47,10 +49,12 @@ function SwitchRow({ label, hint, checked, onToggle }: SwitchRowProps) {
 export function SettingsSheet({
   open,
   deuceRules,
+  tiebreakEnabled,
   audioOn,
   vibrationOn,
   onClose,
   onToggleDeuce,
+  onToggleTiebreak,
   onToggleAudio,
   onToggleVibration
 }: SettingsSheetProps) {
@@ -83,6 +87,12 @@ export function SettingsSheet({
                 hint={deuceRules ? "ON" : "OFF"}
                 checked={deuceRules}
                 onToggle={onToggleDeuce}
+              />
+              <SwitchRow
+                label="Tiebreak"
+                hint={tiebreakEnabled ? "ON" : "OFF"}
+                checked={tiebreakEnabled}
+                onToggle={onToggleTiebreak}
               />
               <SwitchRow
                 label="Audio calls"

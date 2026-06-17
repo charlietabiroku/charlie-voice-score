@@ -73,6 +73,7 @@ export type Announcement = {
 export type ScoreUpdate = {
   snap: MatchSnap;
   pointCall: PointLabel;
+  audioChain?: AudioKey[];
   event?: Announcement;
 };
 

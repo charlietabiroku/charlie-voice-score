@@ -100,8 +100,9 @@ export default function App() {
   const [snap, setSnap] = useState<MatchSnap>(() => createInitialSnap());
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [faultCount, setFaultCount] = useState(0);
-  const [deuceRules, setDeuceRules] = useState(false);
-  const [audioOn, setAudioOn] = useState(true);
+  const [deuceRules, setDeuceRules] = useState(true);
+  const [tiebreakEnabled, setTiebreakEnabled] = useState(false);
+  const [audioOn, setAudioOn] = useState(false);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>("locked");
   const [vibrationOn, setVibrationOn] = useState(true);
   const [volumeBoost, setVolumeBoost] = useState<2 | 4>(2);
@@ -131,14 +132,13 @@ export default function App() {
   const callLabel = getScoreCall(snap, deuceRules);
   const leftPoint = pointDisplay(snap.isTiebreak ? snap.tbPa : snap.pa, snap.isTiebreak ? snap.tbPb : snap.pb, deuceRules, snap.isTiebreak);
   const rightPoint = pointDisplay(snap.isTiebreak ? snap.tbPb : snap.pb, snap.isTiebreak ? snap.tbPa : snap.pa, deuceRules, snap.isTiebreak);
-  const audioButtonLabel = audioOn
-    ? audioStatus === "loading"
-      ? "⟳ Loading"
-      : "▶ Tap"
-    : "♪ OFF";
+  const audioButtonLabel = !audioOn ? "▶ Tap" : audioStatus === "loading" ? "⟳ Loading" : "▶ Tap";
   const volumeButtonLabel = `${volumeBoost === 4 ? "🔊" : "🔈"} VOL`;
 
   function unlockAudio() {
+    if (!audioOnRef.current) {
+      setAudioOn(true);
+    }
     void audioEngine.unlockAndPreload();
   }
 
@@ -159,12 +159,14 @@ export default function App() {
   }
 
   function runScoring(winner: Player, audioLead: AudioKey[] = []) {
-    const result = awardPoint(snap, winner, deuceRules);
+    const result = awardPoint(snap, winner, deuceRules, tiebreakEnabled);
     commit(result.snap, 0);
 
     if (audioOnRef.current) {
       const chain = [...audioLead];
-      if (result.pointCall.audioKey) {
+      if (result.audioChain?.length) {
+        chain.push(...result.audioChain);
+      } else if (result.pointCall.audioKey) {
         chain.push(result.pointCall.audioKey);
       }
       if (chain.length > 0) {
@@ -193,13 +195,13 @@ export default function App() {
         setHistory((prev) => [...prev, { snap: structuredClone(snap), faultCount }]);
         setFaultCount(1);
         if (audioOnRef.current) {
-          audioEngine.playChained(["fault", "second-serve"]);
+          audioEngine.playSound("fault");
         }
         haptic(8, vibrationOn);
         return;
       }
 
-      runScoring(otherPlayer(snap.server), ["out"]);
+      runScoring(otherPlayer(snap.server), ["fault", "fault"]);
     });
   }
 
@@ -364,10 +366,12 @@ export default function App() {
       <SettingsSheet
         open={settingsOpen}
         deuceRules={deuceRules}
+        tiebreakEnabled={tiebreakEnabled}
         audioOn={audioOn}
         vibrationOn={vibrationOn}
         onClose={() => setSettingsOpen(false)}
         onToggleDeuce={() => setDeuceRules((prev) => !prev)}
+        onToggleTiebreak={() => setTiebreakEnabled((prev) => !prev)}
         onToggleAudio={() => setAudioOn((prev) => !prev)}
         onToggleVibration={() => setVibrationOn((prev) => !prev)}
       />

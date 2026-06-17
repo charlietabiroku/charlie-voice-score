@@ -85,12 +85,20 @@ function buildStandardCall(pa: number, pb: number, deuceRules: boolean, server: 
       : { text: "ADVANTAGE RECEIVER", audioKey: "advantage-receiver" };
   }
 
-  const a = normalizePoints(pa);
-  const b = normalizePoints(pb);
-  const isAll = a === b;
+  const serverPoints = server === "A" ? pa : pb;
+  const receiverPoints = server === "A" ? pb : pa;
+  const serverIndex = normalizePoints(serverPoints);
+  const receiverIndex = normalizePoints(receiverPoints);
+  const isAll = serverIndex === receiverIndex;
+
   return {
-    text: isAll ? `${POINT_WORDS[a]} ALL` : `${POINT_WORDS[a]} ${POINT_WORDS[b]}`,
-    audioKey: POINT_AUDIO_MATRIX[a][b]
+    text: isAll
+      ? `${POINT_WORDS[serverIndex]} ALL`
+      : `${POINT_WORDS[serverIndex]} ${POINT_WORDS[receiverIndex]}`,
+    audioKey:
+      server === "A"
+        ? POINT_AUDIO_MATRIX[serverIndex][receiverIndex]
+        : POINT_AUDIO_MATRIX[receiverIndex][serverIndex]
   };
 }
 
@@ -156,9 +164,10 @@ function didWinMatch(sets: SetScore[]): Player | null {
   return null;
 }
 
-export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean): ScoreUpdate {
+export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean, tiebreakEnabled: boolean): ScoreUpdate {
   const next: MatchSnap = structuredClone(snap);
   next.setWinner = null;
+  const gameWinnerAudioKey = snap.server === winner ? "game-server" : "game-receiver";
 
   if (next.matchWinner) {
     return { snap: next, pointCall: getScoreCall(next, deuceRules) };
@@ -204,12 +213,13 @@ export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean)
     next.matchWinner = matchWinner;
     const kind = matchWinner ? "match" : "set";
     const winnerRole = tiebreakWinner === snap.server ? "Server" : "Receiver";
+    const setWinnerAudioKey = tiebreakWinner === snap.server ? "set-server" : "set-receiver";
     return {
       snap: next,
-      pointCall:
-        tiebreakWinner === snap.server
-          ? { text: `${matchWinner ? "MATCH" : "SET"} SERVER`, audioKey: "set-server" }
-          : { text: `${matchWinner ? "MATCH" : "SET"} RECEIVER`, audioKey: "set-receiver" },
+      pointCall: {
+        text: `${matchWinner ? "MATCH" : "SET"} ${winnerRole.toUpperCase()}`,
+        audioKey: setWinnerAudioKey
+      },
       event: buildAnnouncement(kind, matchWinner ?? tiebreakWinner, winnerRole, next.sets)
     };
   }
@@ -238,7 +248,7 @@ export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean)
   next.pb = 0;
 
   const winnerRole = gameWinner === snap.server ? "Server" : "Receiver";
-  if (next.ga === GAMES_PER_SET && next.gb === GAMES_PER_SET) {
+  if (tiebreakEnabled && next.ga === GAMES_PER_SET && next.gb === GAMES_PER_SET) {
     next.isTiebreak = true;
     next.tbPa = 0;
     next.tbPb = 0;
@@ -246,10 +256,9 @@ export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean)
     next.server = next.tbFirstServer;
     return {
       snap: next,
-      pointCall:
-        gameWinner === snap.server
-          ? { text: "GAME SERVER", audioKey: "game-server" }
-          : { text: "GAME RECEIVER", audioKey: "game-receiver" },
+      pointCall: gameWinner === snap.server
+        ? { text: "GAME SERVER", audioKey: "game-server" }
+        : { text: "GAME RECEIVER", audioKey: "game-receiver" },
       event: buildAnnouncement("game", gameWinner, winnerRole, next.sets)
     };
   }
@@ -259,10 +268,9 @@ export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean)
     next.server = otherPlayer(snap.server);
     return {
       snap: next,
-      pointCall:
-        gameWinner === snap.server
-          ? { text: "GAME SERVER", audioKey: "game-server" }
-          : { text: "GAME RECEIVER", audioKey: "game-receiver" },
+      pointCall: gameWinner === snap.server
+        ? { text: "GAME SERVER", audioKey: "game-server" }
+        : { text: "GAME RECEIVER", audioKey: "game-receiver" },
       event: buildAnnouncement("game", gameWinner, winnerRole, next.sets)
     };
   }
@@ -276,13 +284,18 @@ export function awardPoint(snap: MatchSnap, winner: Player, deuceRules: boolean)
   const matchWinner = didWinMatch(next.sets);
   next.matchWinner = matchWinner;
   const setWinnerRole = setWinner === snap.server ? "Server" : "Receiver";
+  const setWinnerAudioKey = setWinner === snap.server ? "set-server" : "set-receiver";
 
   return {
     snap: next,
-    pointCall:
-      setWinner === snap.server
-        ? { text: `${matchWinner ? "MATCH" : "SET"} SERVER`, audioKey: "set-server" }
-        : { text: `${matchWinner ? "MATCH" : "SET"} RECEIVER`, audioKey: "set-receiver" },
+    pointCall: {
+      text: `${matchWinner ? "MATCH" : "SET"} ${setWinnerRole.toUpperCase()}`,
+      audioKey: setWinnerAudioKey
+    },
+    audioChain: [
+      gameWinnerAudioKey,
+      setWinnerAudioKey
+    ],
     event: buildAnnouncement(matchWinner ? "match" : "set", matchWinner ?? setWinner, setWinnerRole, next.sets)
   };
 }
