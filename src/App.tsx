@@ -26,10 +26,10 @@ import type {
 
 function BrandBadge() {
   return (
-    <span className="relative flex h-[34px] w-[34px] items-center justify-center rounded-[11px] bg-[linear-gradient(180deg,#21321A_0%,#182415_100%)] shadow-[0_0_22px_rgba(200,245,58,0.22)]">
-      <span className="h-5 w-5 rounded-full bg-[radial-gradient(circle_at_30%_25%,#ECFF9A_0%,#C8F53A_52%,#8EBE12_100%)]" />
-      <span className="absolute inset-y-[7px] left-[8px] w-[2px] rounded-full bg-white/90" />
-      <span className="absolute inset-y-[7px] right-[8px] w-[2px] rounded-full bg-white/90" />
+    <span className="relative flex h-[40px] w-[40px] items-center justify-center rounded-[14px] bg-[linear-gradient(180deg,#1B2816_0%,#131D12_100%)] shadow-[0_0_24px_rgba(200,245,58,0.14)]">
+      <span className="h-7 w-7 rounded-full bg-[radial-gradient(circle_at_30%_25%,#EDFF9E_0%,#C8F53A_54%,#8DBA16_100%)]" />
+      <span className="absolute inset-y-[6px] left-[12px] w-[2px] rounded-full bg-white/90" />
+      <span className="absolute inset-y-[6px] right-[12px] w-[2px] rounded-full bg-white/90" />
     </span>
   );
 }
@@ -255,35 +255,35 @@ export default function App() {
         <header className="mb-3 flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-3">
             <BrandBadge />
-            <div className="min-w-0">
-              <div className="text-[17px] font-bold leading-none tracking-[-0.04em] text-white">
+            <div className="min-w-0 max-w-[180px]">
+              <div className="text-[18px] font-bold leading-[0.95] tracking-[-0.05em] text-white">
                 Charlie Voice Score
               </div>
-              <div className="mt-1 text-[11px] font-bold leading-none tracking-[-0.02em] text-[#B7CC74]">
+              <div className="mt-2 text-[11px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74]">
                 Real-Time Tennis Umpire
               </div>
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={unlockAudio}
-              className="flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-semibold tracking-[-0.02em] text-[#C5CCC0]"
+              className="flex h-[52px] min-w-[102px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-medium tracking-[-0.02em] text-[#C5CCC0]"
             >
               <span>{audioButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setVolumeBoost((prev) => (prev === 2 ? 4 : 2))}
-              className="flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-semibold tracking-[-0.02em] text-[#C5CCC0]"
+              className="flex h-[52px] min-w-[102px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-medium tracking-[-0.02em] text-[#C5CCC0]"
             >
               <span>{volumeButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setSettingsOpen(true)}
-              className="grid h-11 w-11 place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[18px] text-[#C5CCC0]"
+              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[18px] text-[#C5CCC0]"
             >
               ⚙
             </button>
@@ -337,7 +337,7 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleUndo}
-            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[15px] font-semibold text-[#8D9788]"
+            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[15px] font-medium text-[#8D9788]"
           >
             <UndoIcon />
             Undo
@@ -346,7 +346,7 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleReset}
-            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[15px] font-semibold text-[#FFB7A3]"
+            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[15px] font-medium text-[#FFB7A3]"
           >
             <ResetIcon />
             Reset
