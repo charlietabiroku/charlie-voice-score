@@ -201,7 +201,7 @@ export default function App() {
         return;
       }
 
-      runScoring(otherPlayer(snap.server), ["fault", "fault"]);
+      runScoring(otherPlayer(snap.server), ["fault"]);
     });
   }
 
