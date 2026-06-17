@@ -2,8 +2,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { SetScore } from "../types";
 
 type ScoreCardProps = {
-  leftLabel: string;
-  rightLabel: string;
   leftScore: string;
   rightScore: string;
   callText: string;
@@ -11,8 +9,6 @@ type ScoreCardProps = {
 };
 
 export function ScoreCard({
-  leftLabel,
-  rightLabel,
   leftScore,
   rightScore,
   callText,
@@ -30,9 +26,6 @@ export function ScoreCard({
 
       <div className="grid grid-cols-[1fr_1px_1fr] items-center">
         <div className="py-3 text-center">
-          <div className="mb-1 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#85927F]">
-            {leftLabel}
-          </div>
           <AnimatePresence mode="wait">
             <motion.div
               key={`left-${leftScore}`}
@@ -40,7 +33,7 @@ export function ScoreCard({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="text-[76px] font-black leading-none tracking-[-0.06em] text-white"
+              className="text-[88px] font-black leading-none tracking-[-0.07em] text-white"
             >
               {leftScore}
             </motion.div>
@@ -50,9 +43,6 @@ export function ScoreCard({
         <div className="h-30 bg-[rgba(255,255,255,0.12)]" />
 
         <div className="py-3 text-center">
-          <div className="mb-1 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#85927F]">
-            {rightLabel}
-          </div>
           <AnimatePresence mode="wait">
             <motion.div
               key={`right-${rightScore}`}
@@ -60,7 +50,7 @@ export function ScoreCard({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="text-[76px] font-black leading-none tracking-[-0.06em] text-white"
+              className="text-[88px] font-black leading-none tracking-[-0.07em] text-white"
             >
               {rightScore}
             </motion.div>
@@ -68,7 +58,7 @@ export function ScoreCard({
         </div>
       </div>
 
-      <div className="mt-3 rounded-[18px] bg-[rgba(255,255,255,0.05)] px-4 py-2.5 text-center text-[20px] font-semibold tracking-[0.18em] text-[#E8EEE5]">
+      <div className="mt-3 rounded-[18px] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-center text-[19px] font-semibold tracking-[0.18em] text-[#E8EEE5]">
         {callText}
       </div>
     </section>
