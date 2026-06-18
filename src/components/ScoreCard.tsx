@@ -15,7 +15,7 @@ export function ScoreCard({
   sets
 }: ScoreCardProps) {
   return (
-    <section className="rounded-[28px] border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#21291E_0%,#1B2219_100%)] px-4 pb-4 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_14px_30px_rgba(0,0,0,0.24)]">
+    <section className="rounded-[28px] border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#21291E_0%,#1B2219_100%)] px-3 pb-3 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_14px_30px_rgba(0,0,0,0.24)] sm:px-4 sm:pb-4">
       <div className="mb-3 min-h-[18px] text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-[#6D7867]">
         {sets.map((set, index) => (
           <span key={`${set.a}-${set.b}-${index}`} className="mx-1.5">
@@ -33,7 +33,7 @@ export function ScoreCard({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="text-[88px] font-black leading-none tracking-[-0.07em] text-white"
+              className="text-[72px] font-black leading-none tracking-[-0.07em] text-white sm:text-[88px]"
             >
               {leftScore}
             </motion.div>
@@ -50,7 +50,7 @@ export function ScoreCard({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="text-[88px] font-black leading-none tracking-[-0.07em] text-white"
+              className="text-[72px] font-black leading-none tracking-[-0.07em] text-white sm:text-[88px]"
             >
               {rightScore}
             </motion.div>
@@ -58,7 +58,7 @@ export function ScoreCard({
         </div>
       </div>
 
-      <div className="mt-3 rounded-[18px] bg-[rgba(255,255,255,0.05)] px-4 py-3 text-center text-[19px] font-semibold tracking-[0.18em] text-[#E8EEE5]">
+      <div className="mt-3 rounded-[18px] bg-[rgba(255,255,255,0.05)] px-3 py-2.5 text-center text-[16px] font-semibold tracking-[0.15em] text-[#E8EEE5] sm:px-4 sm:py-3 sm:text-[19px] sm:tracking-[0.18em]">
         {callText}
       </div>
     </section>
