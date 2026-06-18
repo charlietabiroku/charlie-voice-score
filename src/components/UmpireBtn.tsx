@@ -20,11 +20,11 @@ export function UmpireBtn({ title, subtitle, icon, tone, onClick }: UmpireBtnPro
       type="button"
       whileTap={{ scale: 0.94 }}
       onClick={onClick}
-      className={`flex min-h-[118px] flex-col items-center justify-center gap-1.5 rounded-[24px] border px-4 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${toneClass[tone]}`}
+      className={`flex min-h-[98px] flex-col items-center justify-center gap-1 rounded-[24px] border px-3 py-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:min-h-[118px] sm:gap-1.5 sm:px-4 sm:py-4 ${toneClass[tone]}`}
     >
-      {icon ? <span className="mb-1 text-[44px] leading-none">{icon}</span> : null}
-      <span className="text-[23px] font-semibold tracking-[-0.03em]">{title}</span>
-      <span className="text-[12px] font-medium tracking-[-0.01em] opacity-80">{subtitle}</span>
+      {icon ? <span className="mb-0.5 text-[36px] leading-none sm:mb-1 sm:text-[44px]">{icon}</span> : null}
+      <span className="text-[20px] font-semibold tracking-[-0.03em] sm:text-[23px]">{title}</span>
+      <span className="text-[11px] font-medium tracking-[-0.01em] opacity-80 sm:text-[12px]">{subtitle}</span>
     </motion.button>
   );
 }
