@@ -26,10 +26,10 @@ import type {
 
 function BrandBadge() {
   return (
-    <span className="relative flex h-[40px] w-[40px] items-center justify-center rounded-[14px] bg-[linear-gradient(180deg,#1B2816_0%,#131D12_100%)] shadow-[0_0_24px_rgba(200,245,58,0.14)]">
-      <span className="h-7 w-7 rounded-full bg-[radial-gradient(circle_at_30%_25%,#EDFF9E_0%,#C8F53A_54%,#8DBA16_100%)]" />
-      <span className="absolute inset-y-[6px] left-[12px] w-[2px] rounded-full bg-white/90" />
-      <span className="absolute inset-y-[6px] right-[12px] w-[2px] rounded-full bg-white/90" />
+    <span className="relative flex h-[44px] w-[44px] items-center justify-center rounded-full border border-[rgba(198,255,0,0.4)] bg-[rgba(8,18,11,0.9)] shadow-[0_0_28px_rgba(198,255,0,0.18)]">
+      <span className="h-7 w-7 rounded-full bg-[radial-gradient(circle_at_30%_25%,#F1FF9F_0%,#C6FF00_58%,#7CB342_100%)]" />
+      <span className="absolute inset-y-[8px] left-[13px] w-[2px] rounded-full bg-white/90" />
+      <span className="absolute inset-y-[8px] right-[13px] w-[2px] rounded-full bg-white/90" />
     </span>
   );
 }
@@ -132,7 +132,7 @@ export default function App() {
     : getServerFirstValues(snap.server, snap.pa, snap.pb);
   const leftPoint = pointDisplay(serverPointValue, receiverPointValue, deuceRules, snap.isTiebreak);
   const rightPoint = pointDisplay(receiverPointValue, serverPointValue, deuceRules, snap.isTiebreak);
-  const audioButtonLabel = !audioOn ? "▶ Tap" : audioStatus === "loading" ? "⟳ Loading" : "▶ Tap";
+  const audioButtonLabel = !audioOn ? "Audio" : audioStatus === "loading" ? "Loading" : "Audio";
   const volumeButtonLabel = `${volumeBoost === 4 ? "🔊" : "🔈"} VOL`;
 
   function unlockAudio() {
@@ -252,21 +252,47 @@ export default function App() {
   }
 
   return (
-    <main className="flex min-h-dvh items-start justify-center overflow-y-auto bg-[#0C1A0C] px-1.5 py-1.5 text-white sm:px-3 sm:py-3 sm:items-center">
-      <div className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col px-1.5 pb-[calc(env(safe-area-inset-bottom)+6px)] pt-[calc(env(safe-area-inset-top)+5px)] sm:h-dvh sm:max-w-[448px] sm:overflow-hidden sm:rounded-[34px] sm:px-3 sm:pb-[calc(env(safe-area-inset-bottom)+10px)] sm:pt-[calc(env(safe-area-inset-top)+8px)]">
-        <header className="mb-2 flex items-start justify-between gap-2 sm:mb-3">
-          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+    <main className="flex min-h-dvh items-start justify-center overflow-y-auto bg-[radial-gradient(circle_at_top,#0f2d1f_0%,#050b07_62%)] px-2 py-2 text-white sm:px-3 sm:py-3 sm:items-center">
+      <div className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col px-1.5 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-[calc(env(safe-area-inset-top)+8px)] sm:h-dvh sm:max-w-[448px] sm:overflow-hidden sm:rounded-[34px] sm:px-3 sm:pb-[calc(env(safe-area-inset-bottom)+12px)] sm:pt-[calc(env(safe-area-inset-top)+10px)]">
+        <header className="mb-2.5 text-center sm:mb-3">
+          <div className="flex items-center justify-center gap-2">
             <BrandBadge />
-            <div className="min-w-0 max-w-[138px] sm:max-w-[180px]">
-              <div className="text-[14px] font-bold leading-[0.95] tracking-[-0.05em] text-white sm:text-[18px]">
+            <div>
+              <div className="text-[19px] font-black tracking-[-0.04em] text-white sm:text-[22px]">
                 Charlie Voice Score
               </div>
-              <div className="mt-0.5 text-[8px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74] sm:mt-2 sm:text-[11px]">
+              <div className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B7CC74] sm:text-[10px]">
                 Real-Time Tennis Umpire
               </div>
             </div>
           </div>
+        </header>
 
+        <div className="mb-2 grid grid-cols-3 gap-2 sm:mb-3">
+          <button
+            type="button"
+            onClick={unlockAudio}
+            className="flex h-[44px] items-center justify-center rounded-[16px] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[12px] font-medium text-[#D5DDD1] backdrop-blur-md"
+          >
+            <span>{audioButtonLabel}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setVolumeBoost((prev) => (prev === 2 ? 4 : 2))}
+            className="flex h-[44px] items-center justify-center rounded-[16px] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[12px] font-medium text-[#D5DDD1] backdrop-blur-md"
+          >
+            <span>{volumeButtonLabel}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSettingsOpen(true)}
+            className="flex h-[44px] items-center justify-center rounded-[16px] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[12px] font-medium text-[#D5DDD1] backdrop-blur-md"
+          >
+            <span>Mode</span>
+          </button>
+        </div>
+
+        <div className="hidden">
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <button
               type="button"
@@ -290,7 +316,7 @@ export default function App() {
               ⚙
             </button>
           </div>
-        </header>
+        </div>
 
         <ServeHero
           leftGames={leftGames}
@@ -314,14 +340,14 @@ export default function App() {
           />
         </div>
 
-        <div className="mt-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#687562] sm:mt-3 sm:text-[11px] sm:tracking-[0.32em]">
+        <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#718066] sm:mt-3 sm:text-[11px] sm:tracking-[0.32em]">
           Umpire Calls
         </div>
 
         <div className="mt-1.5 grid grid-cols-2 gap-2 sm:mt-2.5 sm:gap-3">
           <UmpireBtn
-            title={faultCount === 0 ? "Fault" : "2nd Fault!"}
-            subtitle={faultCount === 0 ? "1st serve" : "→ Double Fault"}
+            title="Fault"
+            subtitle={faultCount === 0 ? "1st serve" : "double fault"}
             icon={<FaultIcon />}
             tone="fault"
             onClick={handleFault}
@@ -339,7 +365,7 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleUndo}
-            className="flex min-h-[50px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[13px] font-medium text-[#8D9788] sm:min-h-[60px] sm:text-[15px]"
+            className="flex min-h-[52px] items-center justify-center rounded-[16px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.08)] text-[13px] font-medium text-[#D7DDD3] backdrop-blur-md sm:min-h-[60px] sm:text-[15px]"
           >
             <UndoIcon />
             Undo
@@ -348,7 +374,7 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleReset}
-            className="flex min-h-[50px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[13px] font-medium text-[#FFB7A3] sm:min-h-[60px] sm:text-[15px]"
+            className="flex min-h-[52px] items-center justify-center rounded-[16px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.08)] text-[13px] font-medium text-[#FFD1C3] backdrop-blur-md sm:min-h-[60px] sm:text-[15px]"
           >
             <ResetIcon />
             Reset
