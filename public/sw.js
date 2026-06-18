@@ -1,20 +1,45 @@
-const CACHE_NAME = "charlie-voice-score-v2";
-const ASSETS = ["/", "/manifest.json", "/logo.svg"];
+const CACHE_NAME = "charlie-voice-score-v3";
+const ASSETS = ["/manifest.json", "/logo.svg"];
+
+function isCacheableAsset(requestUrl, request) {
+  if (requestUrl.origin !== self.location.origin) {
+    return false;
+  }
+
+  if (requestUrl.pathname.startsWith("/audio/")) {
+    return true;
+  }
+
+  return ["script", "style", "image", "font", "audio"].includes(request.destination);
+}
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
-    )
+    ).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") {
+    return;
+  }
+
+  const requestUrl = new URL(event.request.url);
+
+  if (event.request.mode === "navigate" || event.request.destination === "document") {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  if (!isCacheableAsset(requestUrl, event.request)) {
     return;
   }
 
@@ -34,7 +59,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cloned));
           return response;
         })
-        .catch(() => caches.match("/"));
+        .catch(() => caches.match(event.request));
     })
   );
 });
