@@ -252,16 +252,16 @@ export default function App() {
   }
 
   return (
-    <main className="flex min-h-dvh items-start justify-center overflow-y-auto bg-[#0C1A0C] px-3 py-3 text-white sm:items-center">
-      <div className="flex min-h-dvh w-full max-w-[448px] flex-col px-2 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-[calc(env(safe-area-inset-top)+8px)] sm:h-dvh sm:overflow-hidden sm:rounded-[34px] sm:px-3">
-        <header className="mb-3 flex items-start justify-between gap-2">
-          <div className="flex min-w-0 items-center gap-3">
+    <main className="flex min-h-dvh items-start justify-center overflow-y-auto bg-[#0C1A0C] px-2 py-2 text-white sm:px-3 sm:py-3 sm:items-center">
+      <div className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col px-2 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-[calc(env(safe-area-inset-top)+6px)] sm:h-dvh sm:max-w-[448px] sm:overflow-hidden sm:rounded-[34px] sm:px-3 sm:pb-[calc(env(safe-area-inset-bottom)+10px)] sm:pt-[calc(env(safe-area-inset-top)+8px)]">
+        <header className="mb-2.5 flex items-start justify-between gap-2 sm:mb-3">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <BrandBadge />
-            <div className="min-w-0 max-w-[156px] sm:max-w-[180px]">
-              <div className="text-[16px] font-bold leading-[0.95] tracking-[-0.05em] text-white sm:text-[18px]">
+            <div className="min-w-0 max-w-[145px] sm:max-w-[180px]">
+              <div className="text-[15px] font-bold leading-[0.95] tracking-[-0.05em] text-white sm:text-[18px]">
                 Charlie Voice Score
               </div>
-              <div className="mt-1.5 text-[10px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74] sm:mt-2 sm:text-[11px]">
+              <div className="mt-1 text-[9px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74] sm:mt-2 sm:text-[11px]">
                 Real-Time Tennis Umpire
               </div>
             </div>
@@ -271,21 +271,21 @@ export default function App() {
             <button
               type="button"
               onClick={unlockAudio}
-              className="flex h-[46px] min-w-[84px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-3 text-[10px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
+              className="flex h-[42px] min-w-[78px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-2.5 text-[9px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
             >
               <span>{audioButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setVolumeBoost((prev) => (prev === 2 ? 4 : 2))}
-              className="flex h-[46px] min-w-[84px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-3 text-[10px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
+              className="flex h-[42px] min-w-[78px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-2.5 text-[9px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
             >
               <span>{volumeButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setSettingsOpen(true)}
-              className="grid h-[46px] w-[46px] place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[16px] text-[#C5CCC0] sm:h-[52px] sm:w-[52px] sm:text-[18px]"
+              className="grid h-[42px] w-[42px] place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[14px] text-[#C5CCC0] sm:h-[52px] sm:w-[52px] sm:text-[18px]"
             >
               ⚙
             </button>
@@ -305,7 +305,7 @@ export default function App() {
           }}
         />
 
-        <div className="mt-2.5">
+        <div className="mt-2">
           <ScoreCard
             leftScore={leftPoint}
             rightScore={rightPoint}
@@ -314,11 +314,11 @@ export default function App() {
           />
         </div>
 
-        <div className="mt-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-[#687562]">
+        <div className="mt-2.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#687562] sm:mt-3 sm:text-[11px] sm:tracking-[0.32em]">
           Umpire Calls
         </div>
 
-        <div className="mt-2.5 grid grid-cols-2 gap-3">
+        <div className="mt-2 grid grid-cols-2 gap-2.5 sm:mt-2.5 sm:gap-3">
           <UmpireBtn
             title={faultCount === 0 ? "Fault" : "2nd Fault!"}
             subtitle={faultCount === 0 ? "1st serve" : "→ Double Fault"}
@@ -329,17 +329,17 @@ export default function App() {
           <UmpireBtn title="Let" subtitle="replay point" icon={<LetIcon />} tone="neutral" onClick={handleLet} />
         </div>
 
-        <div className="mt-2.5 grid grid-cols-2 gap-3">
+        <div className="mt-2 grid grid-cols-2 gap-2.5 sm:mt-2.5 sm:gap-3">
           <PointBtn side="server" onClick={() => handlePoint(snap.server)} />
           <PointBtn side="receiver" onClick={() => handlePoint(otherPlayer(snap.server))} />
         </div>
 
-        <div className="mt-2.5 grid grid-cols-2 gap-3">
+        <div className="mt-2 grid grid-cols-2 gap-2.5 sm:mt-2.5 sm:gap-3">
           <motion.button
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleUndo}
-            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[15px] font-medium text-[#8D9788]"
+            className="flex min-h-[54px] items-center justify-center rounded-[18px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)] text-[14px] font-medium text-[#8D9788] sm:min-h-[60px] sm:text-[15px]"
           >
             <UndoIcon />
             Undo
@@ -348,7 +348,7 @@ export default function App() {
             type="button"
             whileTap={{ scale: 0.95 }}
             onClick={handleReset}
-            className="flex min-h-[60px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[15px] font-medium text-[#FFB7A3]"
+            className="flex min-h-[54px] items-center justify-center rounded-[18px] border border-[rgba(255,158,58,0.28)] bg-[rgba(84,30,18,0.4)] text-[14px] font-medium text-[#FFB7A3] sm:min-h-[60px] sm:text-[15px]"
           >
             <ResetIcon />
             Reset
