@@ -1,5 +1,12 @@
-const CACHE_NAME = "charlie-voice-score-v3";
-const ASSETS = ["/manifest.json", "/logo.svg"];
+const CACHE_NAME = "charlie-voice-score-v4";
+const ASSETS = [
+  "/manifest.webmanifest",
+  "/manifest.json",
+  "/logo.svg",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png",
+  "/icons/icon-1024.png"
+];
 
 function isCacheableAsset(requestUrl, request) {
   if (requestUrl.origin !== self.location.origin) {
