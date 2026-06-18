@@ -100,7 +100,7 @@ export default function App() {
   const [snap, setSnap] = useState<MatchSnap>(() => createInitialSnap());
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [faultCount, setFaultCount] = useState(0);
-  const [deuceRules, setDeuceRules] = useState(true);
+  const [deuceRules, setDeuceRules] = useState(false);
   const [tiebreakEnabled, setTiebreakEnabled] = useState(false);
   const [audioOn, setAudioOn] = useState(false);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>("locked");
