@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Charlie Voice Score icon">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="42%" r="70%">
+      <stop offset="0%" stop-color="#16381f"/>
+      <stop offset="55%" stop-color="#09170d"/>
+      <stop offset="100%" stop-color="#030705"/>
+    </radialGradient>
+    <radialGradient id="ballFill" cx="35%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#f4ff74"/>
+      <stop offset="65%" stop-color="#d7ff11"/>
+      <stop offset="100%" stop-color="#8dc300"/>
+    </radialGradient>
+    <filter id="neon" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="url(#bgGlow)"/>
+  <rect x="22" y="22" width="980" height="980" rx="198" fill="none" stroke="#93ff1f" stroke-opacity=".35" stroke-width="8"/>
+  <circle cx="512" cy="512" r="338" fill="none" stroke="#d7ff11" stroke-width="24" filter="url(#neon)"/>
+  <circle cx="410" cy="522" r="182" fill="url(#ballFill)" filter="url(#neon)"/>
+  <path d="M252 372c76 10 122 40 170 96" fill="none" stroke="#fffdf2" stroke-width="22" stroke-linecap="round"/>
+  <path d="M456 308c-72 74-104 156-98 282" fill="none" stroke="#fffdf2" stroke-width="22" stroke-linecap="round"/>
+  <g fill="#d7ff11" filter="url(#neon)">
+    <rect x="582" y="472" width="28" height="88" rx="14"/>
+    <rect x="632" y="420" width="34" height="192" rx="17"/>
+    <rect x="690" y="352" width="40" height="328" rx="20"/>
+    <rect x="754" y="404" width="34" height="224" rx="17"/>
+    <rect x="808" y="456" width="28" height="120" rx="14"/>
+  </g>
+</svg>
