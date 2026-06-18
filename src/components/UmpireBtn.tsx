@@ -20,11 +20,11 @@ export function UmpireBtn({ title, subtitle, icon, tone, onClick }: UmpireBtnPro
       type="button"
       whileTap={{ scale: 0.94 }}
       onClick={onClick}
-      className={`flex min-h-[98px] flex-col items-center justify-center gap-1 rounded-[24px] border px-3 py-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:min-h-[118px] sm:gap-1.5 sm:px-4 sm:py-4 ${toneClass[tone]}`}
+      className={`flex min-h-[88px] flex-col items-center justify-center gap-0.5 rounded-[22px] border px-2.5 py-2.5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:min-h-[118px] sm:gap-1.5 sm:rounded-[24px] sm:px-4 sm:py-4 ${toneClass[tone]}`}
     >
-      {icon ? <span className="mb-0.5 text-[36px] leading-none sm:mb-1 sm:text-[44px]">{icon}</span> : null}
-      <span className="text-[20px] font-semibold tracking-[-0.03em] sm:text-[23px]">{title}</span>
-      <span className="text-[11px] font-medium tracking-[-0.01em] opacity-80 sm:text-[12px]">{subtitle}</span>
+      {icon ? <span className="mb-0.5 text-[30px] leading-none sm:mb-1 sm:text-[44px]">{icon}</span> : null}
+      <span className="text-[18px] font-semibold tracking-[-0.03em] sm:text-[23px]">{title}</span>
+      <span className="text-[10px] font-medium tracking-[-0.01em] opacity-80 sm:text-[12px]">{subtitle}</span>
     </motion.button>
   );
 }
