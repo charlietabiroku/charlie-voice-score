@@ -252,40 +252,40 @@ export default function App() {
   }
 
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[#0C1A0C] px-3 py-3 text-white">
-      <div className="flex h-dvh w-full max-w-[448px] flex-col overflow-hidden rounded-[34px] px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-[calc(env(safe-area-inset-top)+8px)]">
+    <main className="flex min-h-dvh items-start justify-center overflow-y-auto bg-[#0C1A0C] px-3 py-3 text-white sm:items-center">
+      <div className="flex min-h-dvh w-full max-w-[448px] flex-col px-2 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-[calc(env(safe-area-inset-top)+8px)] sm:h-dvh sm:overflow-hidden sm:rounded-[34px] sm:px-3">
         <header className="mb-3 flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-3">
             <BrandBadge />
-            <div className="min-w-0 max-w-[180px]">
-              <div className="text-[18px] font-bold leading-[0.95] tracking-[-0.05em] text-white">
+            <div className="min-w-0 max-w-[156px] sm:max-w-[180px]">
+              <div className="text-[16px] font-bold leading-[0.95] tracking-[-0.05em] text-white sm:text-[18px]">
                 Charlie Voice Score
               </div>
-              <div className="mt-2 text-[11px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74]">
+              <div className="mt-1.5 text-[10px] font-bold leading-[0.98] tracking-[-0.02em] text-[#B7CC74] sm:mt-2 sm:text-[11px]">
                 Real-Time Tennis Umpire
               </div>
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={unlockAudio}
-              className="flex h-[52px] min-w-[102px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-medium tracking-[-0.02em] text-[#C5CCC0]"
+              className="flex h-[46px] min-w-[84px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-3 text-[10px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
             >
               <span>{audioButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setVolumeBoost((prev) => (prev === 2 ? 4 : 2))}
-              className="flex h-[52px] min-w-[102px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 text-[11px] font-medium tracking-[-0.02em] text-[#C5CCC0]"
+              className="flex h-[46px] min-w-[84px] items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-3 text-[10px] font-medium tracking-[-0.02em] text-[#C5CCC0] sm:h-[52px] sm:min-w-[102px] sm:px-4 sm:text-[11px]"
             >
               <span>{volumeButtonLabel}</span>
             </button>
             <button
               type="button"
               onClick={() => setSettingsOpen(true)}
-              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[18px] text-[#C5CCC0]"
+              className="grid h-[46px] w-[46px] place-items-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[16px] text-[#C5CCC0] sm:h-[52px] sm:w-[52px] sm:text-[18px]"
             >
               ⚙
             </button>
